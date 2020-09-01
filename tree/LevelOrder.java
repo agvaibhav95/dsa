@@ -15,47 +15,30 @@ public class LevelOrder {
 	
 	Node1 root = null;
 	
-	static int height(Node1 root) {
-		
-		if(root==null)
-		return 0;
-		
-		int lheight = height(root.left);
-		int rheight = height(root.right);
-		
-		if(lheight>rheight)
-			return lheight+1;
-		else
-			return rheight+1;
+	public static int height(Node node) {
+		if(node == null) {
+			return 0;
+		}
+		return 1+Math.max(height(node.left),height(node.right));
 	}
-	
-	static void levelOrder(Node1 root,int height) {
-		// for spiral
-		boolean ltr = false;
-		for(int i=1;i<=height;i++) {
-			printLevel(root, i,ltr);
-			ltr = !ltr;
+	public static void BFS(Node node) {
+		int height=height(node);
+		System.out.println(node.key);
+		for(int i=1;i<height;i++) {
+		
+		BFSprint(node, i, 0);
+			
 		}
 	}
-	
-	static void printLevel(Node1 root, int level,boolean ltr) {
-		
-		if(root==null)
-			return ;
-		
-		if(level==1)
-			System.out.println(root.data);
-		else if(level>1) {
-			if(ltr) {
-			printLevel(root.left, level-1,ltr);
-			printLevel(root.right, level-1,ltr);
-		}else {
-			printLevel(root.right, level-1,ltr);
-			printLevel(root.left, level-1,ltr);
+	public static void BFSprint(Node node,int key,int height) {
+		if(node ==null) {return;}
+		if(height ==key) {
+			System.out.println(node.key);
+			return;
 		}
-			}
+		BFSprint(node.left, key, height+1);
+		BFSprint(node.right, key, height+1);
 	}
-	
 	public static void main(String[] a) {
 		
 		LevelOrder levelOrder = new LevelOrder();
@@ -72,7 +55,7 @@ public class LevelOrder {
 		System.out.println(h);
 		
 		System.out.println("level order traversal -");
-		levelOrder(levelOrder.root,h);
+		BFS(levelOrder.root,h);
 		
 	}
 
